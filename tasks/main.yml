@@ -1,0 +1,14 @@
+- name: install build prereqs
+  apt: name={{ item }}
+  with_items:
+  - autoconf
+  - libtool
+  - libssl-dev
+  - openvpn
+  - make
+
+- name: clone the plugin repo
+  git: repo=https://github.com/evgeny-gridasov/openvpn-otp.git dest=/root/openvpn-otp
+
+- name: build a plugin
+  shell: cd /root/openvpn-otp && ./autogen.sh && ./configure --prefix=/usr && make install creates=/usr/lib/openvpn/openvpn-otp.so
